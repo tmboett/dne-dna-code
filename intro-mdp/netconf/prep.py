@@ -29,6 +29,7 @@ SOFTWARE.
 
 import os
 import sys
+from ncclient import manager
 
 # Get the absolute path for the directory where this file is located "here"
 here = os.path.abspath(os.path.dirname(__file__))
@@ -40,3 +41,14 @@ project_root = os.path.abspath(os.path.join(here, "../.."))
 # Extend the system path to include the project root and import the env files
 sys.path.insert(0, project_root)
 import env_lab  # noqa
+
+m = manager.connect(
+    host=env_lab.IOS_XE_1["host"],
+    port=env_lab.IOS_XE_1["netconf_port"],
+    username=env_lab.IOS_XE_1["username"],
+    password=env_lab.IOS_XE_1["password"],
+    hostkey_verify=False
+)
+
+for capability in m.server_capabilities:
+    print(capability)
